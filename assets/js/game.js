@@ -17,9 +17,14 @@ let enemyDamage = 12;
 //  * Defeat each enemy-robot
 // "LOSE" - Player robot's health is zero or less
 
+let randomNumber = function(min, max) {
+    let value = Math.floor(Math.random() * (max - min + 1) + min);
+    return value;
+};
+
 const fight = function(enemyName) {
 
-    while(playerHealth >0 && enemyHealth > 0) {
+    while(playerHealth > 0 && enemyHealth > 0) {
 
         let promptFight = window.prompt("Would you like to FIGHT or SKIP this battle? Enter 'FIGHT' or 'SKIP' to choose.")
 
@@ -29,7 +34,7 @@ const fight = function(enemyName) {
             let confirmSkip = window.confirm("Are you sure you'd like to quit?")
     
             if (confirmSkip) {
-                playerMoney = playerMoney - 10;
+                playerMoney = Math.max(0, playerMoney - 10);
                 window.alert(`${playerName} has chosen to skip the fight!`);
                 console.log(`${playerName, playerMoney}`)
                 break;
@@ -39,7 +44,8 @@ const fight = function(enemyName) {
         };
 
         //Subtract the value of `playerAttack` from the value of `enemyHealth` and use that result to update the value in the `enemyHealth` variable
-        enemyHealth = enemyHealth - playerDamage;
+        var damage = randomNumber(playerDamage - 3, playerDamage);
+        enemyHealth = Math.max(0, enemyHealth - damage);
 
         // Log a resulting message to the console so we know that it worked.
         console.log(`${playerName} attacked ${enemyName}. ${enemyName} now has ${enemyHealth} health remaining.`);
@@ -54,7 +60,8 @@ const fight = function(enemyName) {
         };
 
         // Subtract the value of `enemyAttack` from the value of `playerHealth` and use that result to update the value in the `playerHealth` variable.
-        playerHealth = playerHealth - enemyDamage;
+        var damage = randomNumber(enemyDamage - 3, enemyDamage);
+        playerHealth = Math.max(0, playerHealth - damage);
 
         // Log a resulting message to the console so we know that it worked.
         console.log(`${enemyName} attacked ${playerName}. ${playerName} now has ${playerHealth} health remaining.`);
@@ -79,9 +86,9 @@ const startGame = function() {
     for(let i = 0; i < enemyNames.length; i++) {
         if (playerHealth > 0) {
             window.alert(`Welcome to Robot Gladiators! Round ${i + 1}`);
-            
+         
             let pickedEnemyName = enemyNames[i];
-            enemyHealth = 50;
+            enemyHealth = randomNumber(40, 60);
             
             fight(pickedEnemyName);
 
@@ -153,6 +160,6 @@ const shop = function() {
             shop();
             break;
     }   
-}; 
+};
 
 startGame();
