@@ -111,6 +111,22 @@ const endGame = function() {
 
     if(playerInfo.health > 0) {
         window.alert(`Great job, you've survived the game! You now have a score of ${playerInfo.money}.`);
+
+        let highscore = localStorage.getItem("highscore");
+
+        if (highscore === null) {
+            highscore = 0;
+        }
+
+        if (playerInfo.money > highscore) {
+            console.log(`Congratulations! You beat the high score of ${highscore}!`)
+            localStorage.setItem("highscore", playerInfo.money);
+            localStorage.setItem("name", playerInfo.name);
+            console.log(`The new highscore is ${playerInfo.money}`);
+        } else {
+            console.log(`Sorry, you did not beat the high score of ${highscore}`);
+        }
+
     } else {
         window.alert("You've lost your robot in battle.")
     }
